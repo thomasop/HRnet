@@ -1,0 +1,17 @@
+.search__div__cancel {
+  cursor: pointer;
+  position: absolute;
+  top: 17px;
+  right: 4px;
+}
+
+@media screen and (max-width: 430px) {
+  .search__div {
+    margin-top: 10px;
+    &__cancel {
+      position: relative;
+      top: 3px;
+      right: 19px;
+    }
+  }
+}

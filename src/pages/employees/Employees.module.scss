@@ -1,0 +1,64 @@
+.main {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #6e860f;
+  min-height: 100%;
+  justify-content: center;
+}
+
+.container {
+  border-radius: 10px;
+  position: relative;
+  clear: both;
+  zoom: 1;
+  background-color: white;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  &__h1 {
+    text-align: center;
+  }
+  &__bottom {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    &__link {
+      padding: 10px 20px;
+    color: white;
+    background-color: #5a6f08;
+    border-radius: 5px;
+    text-decoration: none;
+    }
+  }
+  
+  &__div {
+    margin-top: 1rem;
+    margin-bottom: 10px;
+    &__div {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 430px) {
+    .container {
+      &__div {
+        &__div {
+            display: block;
+            text-align: center;
+        }
+      }
+    }
+  }

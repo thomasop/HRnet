@@ -1,0 +1,73 @@
+.paging {
+  clear: both;
+  display: flex;
+  justify-content: space-between;
+  &__div {
+    display: flex;
+    &__span {
+      padding: 0.5em 1em;
+      display: flex;
+      align-content: center;
+      flex-direction: column;
+      justify-content: center;
+      &__click {
+        padding: 0.5em 1em;
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        &:hover {
+          border-radius: 2px;
+          color: white;
+          background: #5a6f08;
+        }
+      }
+    }
+    &__div {
+      display: flex;
+      &__span {
+        padding: 0.5em 1em;
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        &:hover {
+          color: white;
+          border-radius: 2px;
+          background: #5a6f08;
+        }
+        &__current {
+          padding: 0.5em 1em;
+          display: flex;
+          align-content: center;
+          flex-direction: column;
+          justify-content: center;
+          cursor: pointer;
+          border-radius: 2px;
+          background: #93ad18;
+        }
+        &__point {
+          padding: 0px 0.3em 8px 0.3em;
+          display: flex;
+          align-content: center;
+          flex-direction: column;
+          justify-content: center;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .paging {
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+      &__div {
+        justify-content: center;
+      }
+  }
+}
