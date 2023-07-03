@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { RootState } from "../../store";
 import Modal from "./components/modal/Modal";
 import styles from "./Home.module.scss";
