@@ -5,7 +5,10 @@ import styles from "./Search.module.scss";
 const Search = () => {
   const [keyAr, setKeyAr] = useState([]);
   const [displayCancel, setDisplayCancel] = useState(false);
-  const { onSearch, data, initialData } = useSelector((state) => state.Array);
+  const { onSearch } = useSelector((state) => state.Array);
+  const { data, initialData } = useSelector(
+    (state) => state.Data
+  );
   const dispatch = useDispatch();
   const inputRef = useRef(null);
 
@@ -16,6 +19,10 @@ const Search = () => {
         if (onSearch === true) {
           dispatch({
             type: "Array/storeDataSearchInv",
+           // payload: { data: { data: initialData.data } },
+          });
+          dispatch({
+            type: "Data/storeDataSearchInv",
             payload: { data: { data: initialData.data } },
           });
         }
@@ -39,6 +46,10 @@ const Search = () => {
         let newar = [...new Set(ar)];
         dispatch({
           type: "Array/storeDataSearch",
+          //payload: { data: { data: newar } },
+        });
+        dispatch({
+          type: "Data/storeDataSearch",
           payload: { data: { data: newar } },
         });
       }
@@ -81,6 +92,10 @@ const Search = () => {
                 setDisplayCancel(false);
                 dispatch({
                   type: "Array/storeDataSearchInv",
+                  //payload: { data: { data: initialData.data } },
+                });
+                dispatch({
+                  type: "Data/storeDataSearchInv",
                   payload: { data: { data: initialData.data } },
                 });
               } else {

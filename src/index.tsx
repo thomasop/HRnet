@@ -3,14 +3,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Employees from "./pages/employees/Employees";
 import { Provider } from "react-redux";
-import { store } from "./store";
-import "./global.css"
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import "./global.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -18,5 +20,6 @@ root.render(
           <Route path="/*" element={<Home />} />
         </Routes>
       </BrowserRouter>
+    </PersistGate>
   </Provider>
 );

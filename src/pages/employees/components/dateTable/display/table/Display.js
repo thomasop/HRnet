@@ -3,7 +3,10 @@ import { useSelector } from "react-redux";
 import styles from "./Display.module.scss";
 
 const Display = ({ i }) => {
-  const { data } = useSelector((state) => state.Array);
+  //const { data } = useSelector((state) => state.Array);
+  const { data } = useSelector(
+    (state) => state.Data
+  );
   const [keyAr, setKeyAr] = useState([]);
   useEffect(() => {
     if (data && data.data.length > 0) {

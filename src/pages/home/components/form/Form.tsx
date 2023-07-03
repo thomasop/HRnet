@@ -56,8 +56,12 @@ const Form = () => {
       };
       employees.push(employee);
     }
-    dispatch({
+    /* dispatch({
       type: "Array/storeData",
+      payload: { data: { data: employees } },
+    }); */
+    dispatch({
+      type: "Data/storeData",
       payload: { data: { data: employees } },
     });
     if (
@@ -93,14 +97,22 @@ const Form = () => {
         type: "Modal/open",
       });
       if (data && data["data"]) {
-        dispatch({
+        /* dispatch({
           type: "Array/storeData",
+          payload: { data: { data: [...data["data"], employees[0]] } },
+        }); */
+        dispatch({
+          type: "Data/storeData",
           payload: { data: { data: [...data["data"], employees[0]] } },
         });
         clearInput();
       } else {
-        dispatch({
+        /* dispatch({
           type: "Array/storeData",
+          payload: { data: { data: employees } },
+        }); */
+        dispatch({
+          type: "Data/storeData",
           payload: { data: { data: employees } },
         });
         clearInput();

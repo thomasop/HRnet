@@ -5,8 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 const Paging = () => {
   const dispatch = useDispatch();
   const [see, setSee] = useState([]);
-  const { data, currentPage, nbShow } = useSelector((state) => state.Array);
+  const { currentPage, nbShow } = useSelector((state) => state.Array);
+  const { data } = useSelector(
+    (state) => state.Data
+  );
   let countPage = data ? Math.ceil(data.data.length / nbShow) : 0;
+
 
   useEffect(() => {
     const push = (array, start, end, type, page, key) => {

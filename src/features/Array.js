@@ -24,11 +24,11 @@ const Array = createSlice({
             state.initialData = action.payload.data
         },
         storeDataSearch: (state, action) => {
-            state.data = action.payload.data
+            //state.data = action.payload.data
             state.onSearch = true
         },
         storeDataSearchInv: (state, action) => {
-            state.data = action.payload.data
+            //state.data = action.payload.data
             state.onSearch = false
         },
         changeNbShow: (state, action) => {

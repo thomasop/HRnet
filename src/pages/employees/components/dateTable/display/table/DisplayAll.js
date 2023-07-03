@@ -18,8 +18,11 @@ const DisplayAll = () => {
   const [keyAr, setKeyAr] = useState([]);
   const [see, setSee] = useState(null);
   const dispatch = useDispatch();
-  const { data, currentPage, nbShow, sortBy } = useSelector(
+  const { currentPage, nbShow, sortBy } = useSelector(
     (state) => state.Array
+  );
+  const { data } = useSelector(
+    (state) => state.Data
   );
 
   useEffect(() => {
