@@ -192,6 +192,8 @@ const Form = () => {
           cssClass={"birth"}
           setterValueInput={setBirthInput}
           valueInput={birthInput}
+          mainColor={"#93ad18"}
+          secondColor={"#5a6f08"}
         />
         <div className={styles.form__group__error}>{birthInputError}</div>
 
@@ -201,6 +203,8 @@ const Form = () => {
           cssClass={"start"}
           setterValueInput={setStartInput}
           valueInput={startInput}
+          mainColor={"#93ad18"}
+          secondColor={"#5a6f08"}
         />
         <div className={styles.form__group__error}>{startInputError}</div>
         <div className={styles.form__div}>

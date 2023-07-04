@@ -38,7 +38,7 @@ const DefaultInput = ({
   return (
     <>
       <div className={styles.home__form__group}>
-        <label className={styles.home__form__group__label} htmlFor="firstname">
+        <label className={styles.home__form__group__label} htmlFor={nameInput}>
           {labelName}
         </label>
         <input
