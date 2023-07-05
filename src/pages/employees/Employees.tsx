@@ -1,41 +1,47 @@
 //import Search from "./components/dateTable/utils/search/Search";
 //import NbShow from "./components/dateTable/utils/nbShow/NbShow";
-import { lazy } from 'react';
+import { Suspense, lazy } from "react";
 import styles from "./Employees.module.scss";
 //import Display from "./components/dateTable/display/table/DisplayAll";
 //import Paging from "./components/dateTable/utils/paging/Paging";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header";
-const Display = lazy(() => import('./components/dateTable/display/table/DisplayAll'));
-const Paging = lazy(() => import('./components/dateTable/utils/paging/Paging'));
-const NbShow = lazy(() => import('./components/dateTable/utils/nbShow/NbShow'));
-const Search = lazy(() => import('./components/dateTable/utils/search/Search'));
+import Loading from "../../components/Loading";
+const Display = lazy(
+  () => import("./components/dateTable/display/table/DisplayAll")
+);
+const Paging = lazy(() => import("./components/dateTable/utils/paging/Paging"));
+const NbShow = lazy(() => import("./components/dateTable/utils/nbShow/NbShow"));
+const Search = lazy(() => import("./components/dateTable/utils/search/Search"));
 
 const Employees = () => {
   return (
     <>
       <Header />
-      <main className={styles.main}>
-        <div className={styles.app}>
-          <div className={styles.container}>
-          
-            <>
-            <h1 className={styles.container__h1}>Current Employees</h1>
-              <div className={styles.container__div}>
-                <div className={styles.container__div__div}>
-                  <NbShow />
-                  <Search />
+      <Suspense fallback={<Loading />}>
+        <main className={styles.main}>
+          <div className={styles.app}>
+            <div className={styles.container}>
+              <>
+                <h1 className={styles.container__h1}>Current Employees</h1>
+                <div className={styles.container__div}>
+                  <div className={styles.container__div__div}>
+                    <NbShow />
+                    <Search />
+                  </div>
                 </div>
-              </div>
-              <Display />
-              <Paging />
-              <div className={styles.container__bottom}>
-                <Link className={styles.container__bottom__link} to={"/"}>Home</Link>
-              </div>
-            </>
+                <Display />
+                <Paging />
+                <div className={styles.container__bottom}>
+                  <Link className={styles.container__bottom__link} to={"/"}>
+                    Home
+                  </Link>
+                </div>
+              </>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </Suspense>
     </>
   );
 };
