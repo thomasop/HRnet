@@ -1,10 +1,15 @@
-import Search from "./components/dateTable/utils/search/Search";
-import NbShow from "./components/dateTable/utils/nbShow/NbShow";
+//import Search from "./components/dateTable/utils/search/Search";
+//import NbShow from "./components/dateTable/utils/nbShow/NbShow";
+import { lazy } from 'react';
 import styles from "./Employees.module.scss";
-import Display from "./components/dateTable/display/table/DisplayAll";
-import Paging from "./components/dateTable/utils/paging/Paging";
+//import Display from "./components/dateTable/display/table/DisplayAll";
+//import Paging from "./components/dateTable/utils/paging/Paging";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header";
+const Display = lazy(() => import('./components/dateTable/display/table/DisplayAll'));
+const Paging = lazy(() => import('./components/dateTable/utils/paging/Paging'));
+const NbShow = lazy(() => import('./components/dateTable/utils/nbShow/NbShow'));
+const Search = lazy(() => import('./components/dateTable/utils/search/Search'));
 
 const Employees = () => {
   return (
