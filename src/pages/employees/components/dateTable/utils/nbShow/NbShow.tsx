@@ -1,9 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-const NbShow = () => {
+/**
+ * React component - Display the number of entries to show
+ * @return {JSX.Element}
+ */
+const NbShow = (): JSX.Element => {
   const dispatch = useDispatch();
-  const handlerChange = (e) => {
+  const handlerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({
       type: "Array/changeNbShow",
       payload: { nbShow: e.target.value },

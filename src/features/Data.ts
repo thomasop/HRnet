@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface StateType {
+    initialData: DataType | null,
+    data: DataType | null,
+}
+
+interface DataType {
+    data: any[]
+}
+
+const initialState: StateType = {
     initialData: null,
     data: null
 }
@@ -21,6 +30,9 @@ const Data = createSlice({
             state.data = action.payload.data
            // state.onSearch = false
         },
+        resetData: (state) => {
+            state.data = state.initialData
+        }
     }
 })
 

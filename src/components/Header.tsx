@@ -2,7 +2,11 @@ import React from 'react'
 import styles from "./Header.module.scss"
 import { Link } from 'react-router-dom'
 
-const Header = () => {
+/**
+ * React component - Display the header
+ * @return {JSX.Element}
+ */
+const Header = (): JSX.Element => {
   return (
     <>
     <header className={styles.header}>

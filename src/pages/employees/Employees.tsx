@@ -14,7 +14,11 @@ const Paging = lazy(() => import("./components/dateTable/utils/paging/Paging"));
 const NbShow = lazy(() => import("./components/dateTable/utils/nbShow/NbShow"));
 const Search = lazy(() => import("./components/dateTable/utils/search/Search"));
 
-const Employees = () => {
+/**
+ * React component - Display the employees page
+ * @return {JSX.Element}
+ */
+const Employees = (): JSX.Element => {
   return (
     <>
       <Header />

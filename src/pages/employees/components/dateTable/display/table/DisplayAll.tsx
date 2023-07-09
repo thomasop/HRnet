@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Display from "./Display";
+import Display from "./DisplayRow";
 import styles from "./Display.module.scss";
+import { RootState } from "../../../../../../store";
 
 const keyArTest = [
   "First Name",
@@ -14,17 +15,28 @@ const keyArTest = [
   "State",
   "Zip Code",
 ];
-const DisplayAll = () => {
-  const [keyAr, setKeyAr] = useState([]);
-  const [see, setSee] = useState(null);
+
+/**
+ * React component - Display table
+ * @return {JSX.Element}
+ */
+const DisplayAll = (): JSX.Element => {
+  const [keyAr, setKeyAr] = useState<string[]>([]);
+  const [see, setSee] = useState<any[] | null>(null);
   const dispatch = useDispatch();
   const { currentPage, nbShow, sortBy } = useSelector(
-    (state) => state.Array
+    (state: RootState) => state.Array
   );
-  const { data } = useSelector(
-    (state) => state.Data
-  );
+  const { data } = useSelector((state: RootState) => state.Data);
 
+  useEffect(() => {
+    dispatch({
+      type: "Array/resetData",
+    });
+    dispatch({
+      type: "Data/resetData",
+    });
+  }, [dispatch]);
   useEffect(() => {
     if (data && data.data.length > 0) {
       setKeyAr(Object.keys(data.data[0]));
@@ -49,7 +61,7 @@ const DisplayAll = () => {
           payload: { sortBy: [keyAr[0], "ASC"] },
         });
         let copyData = data.data;
-        let newat = Object.entries(copyData).sort(function (a, b) {
+        let newat = Object.entries(copyData).sort(function (a, b): any {
           return a[1][keyAr[0]] > b[1][keyAr[0]];
         });
 
@@ -97,49 +109,62 @@ const DisplayAll = () => {
     setSee(arDisplay);
   }, [currentPage, data, dispatch, keyAr, nbShow, sortBy]);
 
-  const handlerSortBy = (e) => {
-    if (e.target.textContent === sortBy[0]) {
+  const handlerSortBy = (e: React.MouseEvent<HTMLElement>) => {
+    let element = e.target as HTMLElement;
+    if (element.textContent === sortBy[0]) {
       if (sortBy[1] === "DESC") {
         dispatch({
           type: "Array/changeSortBy",
-          payload: { sortBy: [e.target.textContent, "ASC"] },
+          payload: { sortBy: [element.textContent, "ASC"] },
         });
-        sortByF(e.target.textContent, "ASC");
+        sortByF(element.textContent, "ASC");
       } else {
         dispatch({
           type: "Array/changeSortBy",
-          payload: { sortBy: [e.target.textContent, "DESC"] },
+          payload: { sortBy: [element.textContent, "DESC"] },
         });
-        sortByF(e.target.textContent, "DESC");
+        sortByF(element.textContent, "DESC");
       }
     } else {
       dispatch({
         type: "Array/changeSortBy",
-        payload: { sortBy: [e.target.textContent, "ASC"] },
+        payload: { sortBy: [element.textContent, "ASC"] },
       });
-      sortByF(e.target.textContent, "ASC");
+      sortByF(element.textContent!, "ASC");
     }
   };
 
-  const sortByF = (element, sort) => {
+  const sortByF = (element: string, sort: string) => {
     if (sortBy[0] !== "" && sortBy[1] !== "" && keyAr[0]) {
-      let copyData = data.data;
-      let sortData = Object.entries(copyData).sort(function (a, b) {
-        console.log(element)
-        if (sort === "ASC") {
-          return a[1][element].toString().localeCompare(b[1][element].toString(), undefined, {numeric: true, sensitivity: 'base'});
-        } else {
-          return b[1][element].toString().localeCompare(a[1][element].toString(), undefined, {numeric: true, sensitivity: 'base'});
+      let copyData = data?.data;
+      let sortData;
+      if (copyData) {
+        sortData = Object.entries(copyData).sort(function (a, b) {
+          if (sort === "ASC") {
+            return a[1][element]
+              .toString()
+              .localeCompare(b[1][element].toString(), undefined, {
+                numeric: true,
+                sensitivity: "base",
+              });
+          } else {
+            return b[1][element]
+              .toString()
+              .localeCompare(a[1][element].toString(), undefined, {
+                numeric: true,
+                sensitivity: "base",
+              });
+          }
+        });
+        let newData = [];
+        for (let i = 0; i < sortData.length; i++) {
+          newData.push(sortData[i][1]);
         }
-      });
-      let newData = [];
-      for (let i = 0; i < sortData.length; i++) {
-        newData.push(sortData[i][1]);
+        dispatch({
+          type: "Data/storeData",
+          payload: { data: { data: newData } },
+        });
       }
-      dispatch({
-        type: "Array/storeData",
-        payload: { data: { data: newData } },
-      });
     }
   };
   return (

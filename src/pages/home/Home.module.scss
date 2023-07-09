@@ -2,13 +2,14 @@
   background: #6e860f;
   width: 100%;
   height: 100%;
-  min-height: 950px;
+  min-height: 1050px;
 }
 
 .home {
-  position: absolute;
+  position: relative;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background-color: white;
   padding: 10px 30px;
   border-radius: 10px;
@@ -81,7 +82,7 @@
           &__ul {
             padding: 0;
             border: 1px solid #c5c5c5;
-            overflow: auto;
+            overflow-y: scroll;
             overflow-x: hidden;
             padding-bottom: 1px;
             border-bottom-right-radius: 3px;
@@ -110,6 +111,7 @@
       &__error {
         color: red;
         font-size: 15px;
+        margin-top: 2px;
       }
     }
     &__div {
@@ -133,10 +135,19 @@
         }
       }
     }
-    /* &__submit {
-      text-align: center;
-      margin-top: 20px;
-      margin-bottom: 50px;
-    } */
   }
 }
+
+@media screen and (max-width: 430px) {
+  .main {
+    background: white;
+    min-height: unset;
+  }
+  .home  {
+    position: unset;
+    padding: 10px 15px;
+  transform: unset;
+  width: unset;
+  }
+}
+

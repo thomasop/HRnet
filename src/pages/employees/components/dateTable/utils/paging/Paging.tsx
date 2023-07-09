@@ -1,45 +1,64 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Paging.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../../store";
 
-const Paging = () => {
+/**
+ * React component - Display the paging
+ * @return {JSX.Element}
+ */
+const Paging = (): JSX.Element => {
   const dispatch = useDispatch();
-  const [see, setSee] = useState([]);
-  const { currentPage, nbShow } = useSelector((state) => state.Array);
-  const { data } = useSelector(
-    (state) => state.Data
+  const [see, setSee] = useState<any[]>([]);
+  const { currentPage, nbShow } = useSelector(
+    (state: RootState) => state.Array
   );
+  const { data } = useSelector((state: RootState) => state.Data);
   let countPage = data ? Math.ceil(data.data.length / nbShow) : 0;
 
-
   useEffect(() => {
-    const push = (array, start, end, type, page, key) => {
+    const push = (
+      array: any[],
+      start: number | null,
+      end: number | null,
+      type: string,
+      page: number | null,
+      key: number | null
+    ) => {
       if (type === "for") {
-        for (let i = start; i < end; i++) {
-          if (i === currentPage) {
-            array.push(
-              <span
-                className={styles.paging__div__div__span__current}
-                onClick={() => {
-                  dispatch({ type: "Array/selectPage", payload: { page: i } });
-                }}
-                key={i}
-              >
-                {i}
-              </span>
-            );
-          } else {
-            array.push(
-              <span
-                className={styles.paging__div__div__span}
-                onClick={() => {
-                  dispatch({ type: "Array/selectPage", payload: { page: i } });
-                }}
-                key={i}
-              >
-                {i}
-              </span>
-            );
+        if (start && end) {
+          for (let i = start; i < end; i++) {
+            if (i === currentPage) {
+              array.push(
+                <span
+                  className={styles.paging__div__div__span__current}
+                  onClick={() => {
+                    dispatch({
+                      type: "Array/selectPage",
+                      payload: { page: i },
+                    });
+                  }}
+                  key={i}
+                >
+                  {i}
+                </span>
+              );
+            } else {
+              array.push(
+                <span
+                  className={styles.paging__div__div__span}
+                  onClick={() => {
+                    dispatch({
+                      type: "Array/selectPage",
+                      payload: { page: i },
+                    });
+                  }}
+                  key={i}
+                >
+                  {i}
+                </span>
+              );
+            }
           }
         }
       } else if (type === "point") {
@@ -65,29 +84,28 @@ const Paging = () => {
         );
       }
     };
-    let ar = [];
-    console.log(ar)
+    let ar: any[] = [];
     if (countPage > 8) {
       if (currentPage <= 4) {
         push(ar, 1, 6, "for", null, null);
-        push(ar, null, null, "point", null, 7118791789);
+        push(ar, null, null, "point", null, nbShow + 1);
+        push(ar, null, null, "end", countPage, nbShow + 2);
       } else if (currentPage >= countPage - 3) {
-        push(ar, null, null, "start", 1, 878197198);
-        push(ar, null, null, "point", null, 9116716611);
+        push(ar, null, null, "start", 1, nbShow + 1);
+        push(ar, null, null, "point", null, nbShow + 2);
         push(ar, countPage - 4, countPage + 1, "for", null, null);
       } else {
-        push(ar, null, null, "start", 1, 311919911);
-        push(ar, null, null, "point", null, 122222222);
+        push(ar, null, null, "start", 1, nbShow + 1);
+        push(ar, null, null, "point", null, nbShow + 2);
         push(ar, currentPage - 1, currentPage + 2, "for", null, null);
         push(ar, null, null, "point", null, 2);
-        push(ar, null, null, "end", countPage, 10118910);
+        push(ar, null, null, "end", countPage, nbShow + 3);
       }
     } else {
       push(ar, 1, countPage + 1, "for", null, null);
     }
-console.log(ar)
     setSee(ar);
-  }, [countPage, currentPage, dispatch]);
+  }, [countPage, currentPage, dispatch, nbShow]);
 
   return (
     <div className={styles.paging}>

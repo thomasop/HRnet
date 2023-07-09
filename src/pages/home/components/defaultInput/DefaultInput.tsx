@@ -13,6 +13,20 @@ interface Proptype {
   regexErrorMessage: string;
 }
 
+/**
+ * React component - Display a default input
+ * @param {Proptype} Props
+ * @param {string} Props.inputValue - display input value
+ * @param {Dispatch<SetStateAction<string>>} Props.setInputValue - edit input value
+ * @param {string} Props.labelName - display the label name
+ * @param {string} Props.typeInput - type of input
+ * @param {string} Props.nameInput - display name of input
+ * @param {string} Props.errorMessage - display error message
+ * @param {Dispatch<SetStateAction<string>>} Props.setErrorMessage - edit error message
+ * @param {RegExp} Props.regex - regex to check input value
+ * @param {string} Props.regexErrorMessage - regex error message
+ * @return {JSX.Element}
+ */
 const DefaultInput = ({
   labelName,
   inputValue,
@@ -23,7 +37,7 @@ const DefaultInput = ({
   setErrorMessage,
   regex,
   regexErrorMessage,
-}: Proptype) => {
+}: Proptype): JSX.Element => {
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     if (regex.test(e.target.value)) {
@@ -34,7 +48,6 @@ const DefaultInput = ({
       setErrorMessage(`${labelName} ${regexErrorMessage}`);
     }
   };
-  console.log(errorMessage);
   return (
     <>
       <div className={styles.home__form__group}>
@@ -49,9 +62,7 @@ const DefaultInput = ({
           value={inputValue}
           onChange={(e) => handlerInput(e)}
         />
-        <div className={styles.home__form__group__error}>
-          {errorMessage}
-        </div>
+        <div className={styles.home__form__group__error}>{errorMessage}</div>
       </div>
     </>
   );

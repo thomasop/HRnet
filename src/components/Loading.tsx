@@ -1,6 +1,12 @@
-const Loading = () => {
+import styles from './Loading.module.scss'
+
+/**
+ * React component - Display the loading
+ * @return {JSX.Element}
+ */
+const Loading = (): JSX.Element => {
   return (
-    <p><i>Loading...</i></p>
+    <h2 className={styles.loading}><i>Loading...</i></h2>
   )
 }
 

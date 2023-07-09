@@ -1,14 +1,16 @@
 
 .table {
     width: 100%;
-    min-width: 1000px;
-    max-width: 1000px;
     border-bottom: 1px solid #111;
-    border-spacing: 0;
+    border-collapse: separate;
+border-spacing: 0;
     clear: both;
+    box-sizing: content-box;
     &__head {
         &__tr {
+            box-sizing: content-box;
             &__th {
+                box-sizing: content-box;
                 padding: 10px 18px;
                 border-bottom: 1px solid #111;
                 cursor: pointer;
@@ -31,8 +33,11 @@
         }
     }
     &__body {
+        box-sizing: content-box;
         &__tr {
+            box-sizing: content-box;
             &__td {
+                box-sizing: content-box;
                 border-top: 1px solid #ddd;
                 padding: 8px 10px;
                 &__border {
@@ -69,6 +74,6 @@
 @media screen and (max-width: 1000px) {
     .container {
         width: 100%;
-        overflow: scroll;
+        overflow-x: scroll;
     }
 }

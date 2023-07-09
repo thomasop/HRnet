@@ -1,7 +1,11 @@
 import styles from "./Modal.module.scss";
 import { useDispatch } from "react-redux";
 
-const Modal = () => {
+/**
+ * React component - Display the modal
+ * @return {JSX.Element}
+ */
+const Modal = (): JSX.Element => {
   const dispatch = useDispatch();
   return (
     <div

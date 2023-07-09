@@ -17,12 +17,29 @@
           text-decoration: none;
           margin-right: 30px;
           transition: all 400ms;
+          border: 2px solid #5a6f08;
+          padding: 10px 20px;
+          border-radius: 10px;
           &:hover {
             transform: scale(1.06);
-            color: green;
+            background-color: #5a6f08;
+            color: white;
           }
         }
       }
+    }
+  }
+}
+
+
+@media screen and (max-width: 1000px) {
+  .header {
+    display: block;
+    &__figure {
+      text-align: center;
+    }
+    &__nav {
+      text-align: center;
     }
   }
 }

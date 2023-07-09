@@ -1,35 +1,37 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, MutableRefObject } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Search.module.scss";
+import { RootState } from "../../../../../../store";
 
-const Search = () => {
-  const [keyAr, setKeyAr] = useState([]);
+/**
+ * React component - Display the search bar
+ * @return {JSX.Element}
+ */
+const Search = (): JSX.Element => {
+  const [keyAr, setKeyAr] = useState<string[]>([]);
   const [displayCancel, setDisplayCancel] = useState(false);
-  const { onSearch } = useSelector((state) => state.Array);
-  const { data, initialData } = useSelector(
-    (state) => state.Data
-  );
-  const dispatch = useDispatch();
-  const inputRef = useRef(null);
 
-  const handlerInputSearch = (e) => {
+  const { onSearch } = useSelector((state: RootState) => state.Array);
+  const { data, initialData } = useSelector((state: RootState) => state.Data);
+  const dispatch = useDispatch();
+  const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
+  const handlerInputSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (data) {
       if (e.target.value.length === 0) {
         setDisplayCancel(false);
         if (onSearch === true) {
           dispatch({
             type: "Array/storeDataSearchInv",
-           // payload: { data: { data: initialData.data } },
           });
           dispatch({
             type: "Data/storeDataSearchInv",
-            payload: { data: { data: initialData.data } },
+            payload: { data: { data: initialData?.data } },
           });
         }
       } else {
         setDisplayCancel(true);
-        let ar = [];
-        initialData.data.filter((data) => {
+        let ar: any = [];
+        initialData?.data.filter((data) => {
           for (let i = 0; i < keyAr.length; i++) {
             if (
               data[keyAr[i]]
@@ -46,7 +48,6 @@ const Search = () => {
         let newar = [...new Set(ar)];
         dispatch({
           type: "Array/storeDataSearch",
-          //payload: { data: { data: newar } },
         });
         dispatch({
           type: "Data/storeDataSearch",
@@ -88,19 +89,22 @@ const Search = () => {
             fill="gray"
             onClick={() => {
               if (data) {
-                inputRef.current.value = "";
-                setDisplayCancel(false);
-                dispatch({
-                  type: "Array/storeDataSearchInv",
-                  //payload: { data: { data: initialData.data } },
-                });
-                dispatch({
-                  type: "Data/storeDataSearchInv",
-                  payload: { data: { data: initialData.data } },
-                });
+                if (inputRef.current) {
+                  inputRef.current.value = "";
+                  setDisplayCancel(false);
+                  dispatch({
+                    type: "Array/storeDataSearchInv",
+                  });
+                  dispatch({
+                    type: "Data/storeDataSearchInv",
+                    payload: { data: { data: initialData?.data } },
+                  });
+                }
               } else {
-                inputRef.current.value = "";
-                setDisplayCancel(false);
+                if (inputRef.current) {
+                  inputRef.current.value = "";
+                  setDisplayCancel(false);
+                }
               }
             }}
             d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"

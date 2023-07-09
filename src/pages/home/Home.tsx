@@ -5,7 +5,11 @@ import styles from "./Home.module.scss";
 import Form from "./components/form/Form";
 import Header from "../../components/Header";
 
-const Home = () => {
+/**
+ * React component - Display the home page
+ * @return {JSX.Element}
+ */
+const Home = (): JSX.Element => {
   const { display } = useSelector((state: RootState) => state.Modal);
 
   return (

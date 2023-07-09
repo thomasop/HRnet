@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultInput from "../defaultInput/DefaultInput";
 import SelectInput from "../selectInput/SelectInput";
@@ -6,6 +6,10 @@ import { RootState } from "../../../../store";
 import styles from "./Form.module.scss";
 import DatePicker from "thomasop-date-picker";
 
+/**
+ * React component - Display the form
+ * @return {JSX.Element}
+ */
 const Form = () => {
   const dispatch = useDispatch();
 
@@ -18,7 +22,7 @@ const Form = () => {
   const [zipInput, setZipInput] = useState<string>("");
   const [departementInput, setDepartementInput] = useState<string>("Sales");
   const [stateInput, setStateInput] = useState<string>("Alabama");
-  const { data } = useSelector((state: RootState) => state.Array);
+  const { data } = useSelector((state: RootState) => state.Data);
 
   const [firstnameInputError, setFirstnameInputError] = useState<string>("");
   const [lastnameInputError, setLastnameInputError] = useState<string>("");
@@ -39,20 +43,30 @@ const Form = () => {
     setDepartementInput("");
     setStateInput("");
   };
+
+  useEffect(() => {
+    if (birthInput[0].length > 0) {
+      setBirthInputError("");
+    }
+    if (startInput[0].length > 0) {
+      setStartInputError("");
+    }
+  }, [birthInput, birthInput.length, startInput]);
+  
   const handlerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const employees = [];
     for (let i = 0; i < 100; i++) {
       const employee = {
-        firstName: "firstname" + i,
-        lastName: "lastname" + i,
-        dateOfBirth: new Date().toDateString(),
-        startDate: new Date().toDateString(),
-        department: i,
-        street: "rue" + i + "exemple",
-        city: "paris",
-        state: "Alabama",
-        zipCode: i,
+        "First Name": "firstname" + i,
+        "Last Name": "lastname" + i,
+        "Date Of Birth": new Date().toDateString(),
+        "Start Date": new Date().toDateString(),
+        Department: i,
+        Street: "rue" + i + "exemple",
+        City: "paris",
+        State: "Alabama",
+        "Zip Code": i,
       };
       employees.push(employee);
     }
@@ -60,6 +74,7 @@ const Form = () => {
       type: "Array/storeData",
       payload: { data: { data: employees } },
     }); */
+    
     dispatch({
       type: "Data/storeData",
       payload: { data: { data: employees } },
@@ -75,15 +90,15 @@ const Form = () => {
     ) {
       const employees = [];
       const employee = {
-        firstName: firstnameInput,
-        lastName: lastnameInput,
-        dateOfBirth: birthInput[0],
-        startDate: startInput[0],
+        "First Name": firstnameInput,
+        "Last Name": lastnameInput,
+        "Date Of Birth": birthInput[0],
+        "Start Date": startInput[0],
         department: departementInput,
         street: streetInput,
         city: cityInput,
         state: stateInput,
-        zipCode: zipInput,
+        "Zip Code": zipInput,
       };
       employees.push(employee);
       setFirstnameInputError("");
@@ -156,6 +171,8 @@ const Form = () => {
       }
     }
   };
+  
+
   return (
     <>
       <form
@@ -172,7 +189,7 @@ const Form = () => {
           nameInput={"firstname"}
           errorMessage={firstnameInputError}
           setErrorMessage={setFirstnameInputError}
-          regex={/[a-zA-Z]{2,}/}
+          regex={/[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/}
           regexErrorMessage={"must have a minimum of 2 characters"}
         />
         <DefaultInput
@@ -183,7 +200,7 @@ const Form = () => {
           nameInput={"lastname"}
           errorMessage={lastnameInputError}
           setErrorMessage={setLastnameInputError}
-          regex={/[a-zA-Z]{2,}/}
+          regex={/[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/}
           regexErrorMessage={"must have a minimum of 2 characters"}
         />
         <DatePicker
@@ -217,7 +234,7 @@ const Form = () => {
             nameInput={"street"}
             errorMessage={streetInputError}
             setErrorMessage={setStreetInputError}
-            regex={/[a-zA-Z]{2,}/}
+            regex={/[A-Za-zÀ-ÖØ-öø-ÿ0-9]{2,}/}
             regexErrorMessage={"must have a minimum of 2 characters"}
           />
           <DefaultInput
@@ -228,7 +245,7 @@ const Form = () => {
             nameInput={"city"}
             errorMessage={cityInputError}
             setErrorMessage={setCityInputError}
-            regex={/[a-zA-Z]{2,}/}
+            regex={/[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/}
             regexErrorMessage={"must have a minimum of 2 characters"}
           />
           <SelectInput
