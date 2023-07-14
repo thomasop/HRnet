@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Display from "./DisplayRow";
 import styles from "./Display.module.scss";
-import { RootState } from "../../../../../../store";
+import { RootState } from "../../../../store";
 
 const keyArTest = [
   "First Name",
@@ -22,19 +22,20 @@ const keyArTest = [
  */
 const DisplayAll = (): JSX.Element => {
   const [keyAr, setKeyAr] = useState<string[]>([]);
-  const [see, setSee] = useState<any[] | null>(null);
+  const [displayTrElement, setDisplayTrElement] = useState<any[] | null>(null);
   const dispatch = useDispatch();
   const { currentPage, nbShow, sortBy } = useSelector(
-    (state: RootState) => state.Array
+    (state: RootState) => state.DataTableFilter
   );
-  const { data } = useSelector((state: RootState) => state.Data);
-
+  const { data, initialData } = useSelector(
+    (state: RootState) => state.DataTable
+  );
   useEffect(() => {
     dispatch({
-      type: "Array/resetData",
+      type: "DataTableFilter/resetData",
     });
     dispatch({
-      type: "Data/resetData",
+      type: "DataTable/resetDataTable",
     });
   }, [dispatch]);
   useEffect(() => {
@@ -42,25 +43,12 @@ const DisplayAll = (): JSX.Element => {
       setKeyAr(Object.keys(data.data[0]));
     }
   }, [data]);
-  useEffect(() => {
-    if (sortBy[0] === "" && sortBy[1] === "") {
-      if (keyAr[0]) {
-        dispatch({
-          type: "Array/changeSortBy",
-          payload: { sortBy: [keyAr[0], "ASC"] },
-        });
-      }
-    }
-  }, [dispatch, keyAr, sortBy]);
 
   useEffect(() => {
-    if (data && data.data) {
+    if (data && data.data && initialData && initialData.data) {
       if (sortBy[0] === "" && sortBy[1] === "" && keyAr[0]) {
-        dispatch({
-          type: "Array/changeSortBy",
-          payload: { sortBy: [keyAr[0], "ASC"] },
-        });
-        let copyData = data.data;
+        let copyData = initialData.data;
+
         let newat = Object.entries(copyData).sort(function (a, b): any {
           return a[1][keyAr[0]] > b[1][keyAr[0]];
         });
@@ -69,10 +57,7 @@ const DisplayAll = (): JSX.Element => {
         for (let i = 0; i < newat.length; i++) {
           test.push(newat[i][1]);
         }
-        dispatch({
-          type: "Array/storeData",
-          payload: { data: { data: test } },
-        });
+
         let arDisplay = [];
         for (
           let i = (currentPage - 1) * nbShow;
@@ -83,7 +68,12 @@ const DisplayAll = (): JSX.Element => {
             arDisplay.push(<Display key={i} i={i} />);
           }
         }
-        setSee(arDisplay);
+
+        setDisplayTrElement(arDisplay);
+        dispatch({
+          type: "DataTableFilter/changeSortBy",
+          payload: { sortBy: [keyAr[0], "ASC"] },
+        });
       }
     }
     let arDisplay = [];
@@ -105,29 +95,27 @@ const DisplayAll = (): JSX.Element => {
         </tr>
       );
     }
-
-    setSee(arDisplay);
-  }, [currentPage, data, dispatch, keyAr, nbShow, sortBy]);
-
+    setDisplayTrElement(arDisplay);
+  }, [currentPage, data, dispatch, initialData, keyAr, nbShow, sortBy]);
   const handlerSortBy = (e: React.MouseEvent<HTMLElement>) => {
     let element = e.target as HTMLElement;
     if (element.textContent === sortBy[0]) {
       if (sortBy[1] === "DESC") {
         dispatch({
-          type: "Array/changeSortBy",
+          type: "DataTableFilter/changeSortBy",
           payload: { sortBy: [element.textContent, "ASC"] },
         });
         sortByF(element.textContent, "ASC");
       } else {
         dispatch({
-          type: "Array/changeSortBy",
+          type: "DataTableFilter/changeSortBy",
           payload: { sortBy: [element.textContent, "DESC"] },
         });
         sortByF(element.textContent, "DESC");
       }
     } else {
       dispatch({
-        type: "Array/changeSortBy",
+        type: "DataTableFilter/changeSortBy",
         payload: { sortBy: [element.textContent, "ASC"] },
       });
       sortByF(element.textContent!, "ASC");
@@ -161,7 +149,7 @@ const DisplayAll = (): JSX.Element => {
           newData.push(sortData[i][1]);
         }
         dispatch({
-          type: "Data/storeData",
+          type: "DataTable/changeDataTable",
           payload: { data: { data: newData } },
         });
       }
@@ -248,7 +236,7 @@ const DisplayAll = (): JSX.Element => {
               })}
           </tr>
         </thead>
-        <tbody className={styles.table__body}>{see}</tbody>
+        <tbody className={styles.table__body}>{displayTrElement}</tbody>
       </table>
     </div>
   );

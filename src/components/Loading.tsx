@@ -1,4 +1,4 @@
-import styles from './Loading.module.scss'
+import styles from "./Loading.module.scss";
 
 /**
  * React component - Display the loading
@@ -6,8 +6,10 @@ import styles from './Loading.module.scss'
  */
 const Loading = (): JSX.Element => {
   return (
-    <h2 className={styles.loading}><i>Loading...</i></h2>
-  )
-}
+    <h2 className={styles.loading}>
+      <i>Loading...</i>
+    </h2>
+  );
+};
 
-export default Loading
+export default Loading;

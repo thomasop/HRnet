@@ -9,7 +9,7 @@ const NbShow = (): JSX.Element => {
   const dispatch = useDispatch();
   const handlerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({
-      type: "Array/changeNbShow",
+      type: "DataTableFilter/changeNbShow",
       payload: { nbShow: e.target.value },
     });
   };

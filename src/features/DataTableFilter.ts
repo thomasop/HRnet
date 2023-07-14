@@ -7,28 +7,10 @@ const initialState = {
     sortBy: ["", ""],
 }
 
-const Array = createSlice({
-    name: 'Array',
+const DataTableFilter = createSlice({
+    name: 'DataTableFilter',
     initialState,
     reducers: {
-        true: (state) => {
-            state.onSearch = true
-        },
-        false: (state) => {
-            state.onSearch = false
-        },
-        /* storeData: (state, action) => {
-            state.data =  {data: action.payload.data.data}
-            state.initialData = action.payload.data
-        }, */
-        storeDataSearch: (state, action) => {
-            //state.data = action.payload.data
-            state.onSearch = true
-        },
-        storeDataSearchInv: (state, action) => {
-            //state.data = action.payload.data
-            state.onSearch = false
-        },
         changeNbShow: (state, action) => {
             state.nbShow = action.payload.nbShow
             state.currentPage = 1
@@ -54,4 +36,4 @@ const Array = createSlice({
      }
 })
 
-export default Array
+export default DataTableFilter

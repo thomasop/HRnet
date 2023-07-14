@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Paging.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../../../store";
+import { RootState } from "../../../../../store";
 
 /**
  * React component - Display the paging
@@ -9,11 +9,11 @@ import { RootState } from "../../../../../../store";
  */
 const Paging = (): JSX.Element => {
   const dispatch = useDispatch();
-  const [see, setSee] = useState<any[]>([]);
+  const [displayPagingElement, setDisplayPagingElement] = useState<any[]>([]);
   const { currentPage, nbShow } = useSelector(
-    (state: RootState) => state.Array
+    (state: RootState) => state.DataTableFilter
   );
-  const { data } = useSelector((state: RootState) => state.Data);
+  const { data } = useSelector((state: RootState) => state.DataTable);
   let countPage = data ? Math.ceil(data.data.length / nbShow) : 0;
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Paging = (): JSX.Element => {
                   className={styles.paging__div__div__span__current}
                   onClick={() => {
                     dispatch({
-                      type: "Array/selectPage",
+                      type: "DataTableFilter/selectPage",
                       payload: { page: i },
                     });
                   }}
@@ -49,7 +49,7 @@ const Paging = (): JSX.Element => {
                   className={styles.paging__div__div__span}
                   onClick={() => {
                     dispatch({
-                      type: "Array/selectPage",
+                      type: "DataTableFilter/selectPage",
                       payload: { page: i },
                     });
                   }}
@@ -74,7 +74,7 @@ const Paging = (): JSX.Element => {
             className={styles.paging__div__div__span}
             onClick={() => {
               dispatch({
-                type: "Array/selectPage",
+                type: "DataTableFilter/selectPage",
                 payload: { page: page },
               });
             }}
@@ -84,27 +84,27 @@ const Paging = (): JSX.Element => {
         );
       }
     };
-    let ar: any[] = [];
-    if (countPage > 8) {
+    let arPaging: any[] = [];
+    if (countPage > 7) {
       if (currentPage <= 4) {
-        push(ar, 1, 6, "for", null, null);
-        push(ar, null, null, "point", null, nbShow + 1);
-        push(ar, null, null, "end", countPage, nbShow + 2);
+        push(arPaging, 1, 6, "for", null, null);
+        push(arPaging, null, null, "point", null, nbShow + 1);
+        push(arPaging, null, null, "end", countPage, nbShow + 2);
       } else if (currentPage >= countPage - 3) {
-        push(ar, null, null, "start", 1, nbShow + 1);
-        push(ar, null, null, "point", null, nbShow + 2);
-        push(ar, countPage - 4, countPage + 1, "for", null, null);
+        push(arPaging, null, null, "start", 1, nbShow + 3);
+        push(arPaging, null, null, "point", null, nbShow + 2);
+        push(arPaging, countPage - 4, countPage + 1, "for", null, null);
       } else {
-        push(ar, null, null, "start", 1, nbShow + 1);
-        push(ar, null, null, "point", null, nbShow + 2);
-        push(ar, currentPage - 1, currentPage + 2, "for", null, null);
-        push(ar, null, null, "point", null, 2);
-        push(ar, null, null, "end", countPage, nbShow + 3);
+        push(arPaging, null, null, "start", 1, nbShow + 1);
+        push(arPaging, null, null, "point", null, nbShow + 2);
+        push(arPaging, currentPage - 1, currentPage + 2, "for", null, null);
+        push(arPaging, null, null, "point", null, 2);
+        push(arPaging, null, null, "end", countPage, nbShow + 3);
       }
     } else {
-      push(ar, 1, countPage + 1, "for", null, null);
+      push(arPaging, 1, countPage + 1, "for", null, null);
     }
-    setSee(ar);
+    setDisplayPagingElement(arPaging);
   }, [countPage, currentPage, dispatch, nbShow]);
 
   return (
@@ -112,7 +112,11 @@ const Paging = (): JSX.Element => {
       {!data && <p>Showing 0 to 0 of 0 entries </p>}
       {data && (
         <p>
-          Showing {(currentPage - 1) * nbShow + 1} to{" "}
+          Showing{" "}
+          {data &&
+            ((data.data.length > 0 && (currentPage - 1) * nbShow + 1) ||
+              0)}{" "}
+          to{" "}
           {data && data.data.length < currentPage * nbShow
             ? data.data.length
             : currentPage * nbShow}{" "}
@@ -126,14 +130,15 @@ const Paging = (): JSX.Element => {
           }`}
           onClick={() => {
             if (data) {
-              if (currentPage > 1) dispatch({ type: "Array/previousPage" });
+              if (currentPage > 1)
+                dispatch({ type: "DataTableFilter/previousPage" });
             }
           }}
         >
           previous
         </span>
         {data && data.data && (
-          <div className={styles.paging__div__div}>{see}</div>
+          <div className={styles.paging__div__div}>{displayPagingElement}</div>
         )}
         <span
           className={`${
@@ -142,7 +147,7 @@ const Paging = (): JSX.Element => {
           onClick={() => {
             if (data) {
               if (currentPage < Math.ceil(data.data.length / nbShow))
-                dispatch({ type: "Array/nextPage" });
+                dispatch({ type: "DataTableFilter/nextPage" });
             }
           }}
         >

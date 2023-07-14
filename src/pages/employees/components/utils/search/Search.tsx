@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, MutableRefObject } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./Search.module.scss";
-import { RootState } from "../../../../../../store";
+import { RootState } from "../../../../../store";
 
 /**
  * React component - Display the search bar
@@ -11,26 +11,25 @@ const Search = (): JSX.Element => {
   const [keyAr, setKeyAr] = useState<string[]>([]);
   const [displayCancel, setDisplayCancel] = useState(false);
 
-  const { onSearch } = useSelector((state: RootState) => state.Array);
-  const { data, initialData } = useSelector((state: RootState) => state.Data);
+  const { currentPage } = useSelector(
+    (state: RootState) => state.DataTableFilter
+  );
+  const { data, initialData } = useSelector(
+    (state: RootState) => state.DataTable
+  );
   const dispatch = useDispatch();
   const inputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const handlerInputSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (data) {
       if (e.target.value.length === 0) {
         setDisplayCancel(false);
-        if (onSearch === true) {
-          dispatch({
-            type: "Array/storeDataSearchInv",
-          });
-          dispatch({
-            type: "Data/storeDataSearchInv",
-            payload: { data: { data: initialData?.data } },
-          });
-        }
+        dispatch({
+          type: "DataTable/storeDataTableSearch",
+          payload: { data: { data: initialData?.data } },
+        });
       } else {
         setDisplayCancel(true);
-        let ar: any = [];
+        let arDataFilter: any = [];
         initialData?.data.filter((data) => {
           for (let i = 0; i < keyAr.length; i++) {
             if (
@@ -39,20 +38,23 @@ const Search = (): JSX.Element => {
                 .toLowerCase()
                 .includes(e.target.value.toLowerCase())
             ) {
-              ar.push(data);
+              arDataFilter.push(data);
               continue;
             }
           }
           return null;
         });
-        let newar = [...new Set(ar)];
+        let copyArDataFilter = [...new Set(arDataFilter)];
         dispatch({
-          type: "Array/storeDataSearch",
+          type: "DataTable/storeDataTableSearch",
+          payload: { data: { data: copyArDataFilter } },
         });
-        dispatch({
-          type: "Data/storeDataSearch",
-          payload: { data: { data: newar } },
-        });
+        if (currentPage !== 1) {
+          dispatch({
+            type: "DataTableFilter/selectPage",
+            payload: { page: 1 },
+          });
+        }
       }
     } else {
       if (e.target.value.length === 0) {
@@ -93,10 +95,7 @@ const Search = (): JSX.Element => {
                   inputRef.current.value = "";
                   setDisplayCancel(false);
                   dispatch({
-                    type: "Array/storeDataSearchInv",
-                  });
-                  dispatch({
-                    type: "Data/storeDataSearchInv",
+                    type: "DataTable/storeDataTableSearch",
                     payload: { data: { data: initialData?.data } },
                   });
                 }

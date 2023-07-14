@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./Display.module.scss";
-import { RootState } from "../../../../../../store";
+import { RootState } from "../../../../store";
 
 interface PropsType {
   i: number;
@@ -14,8 +14,8 @@ interface PropsType {
  * @return {JSX.Element}
  */
 const Display = ({ i }: PropsType): JSX.Element => {
-  const { sortBy } = useSelector((state: RootState) => state.Array);
-  const { data } = useSelector((state: RootState) => state.Data);
+  const { sortBy } = useSelector((state: RootState) => state.DataTableFilter);
+  const { data } = useSelector((state: RootState) => state.DataTable);
   const [keyAr, setKeyAr] = useState<string[]>([]);
   useEffect(() => {
     if (data && data.data.length > 0) {

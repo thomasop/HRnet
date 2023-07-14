@@ -50,7 +50,7 @@
         }
         &__point {
           width: 40px;
-        text-align: center;
+          text-align: center;
           display: flex;
           align-content: center;
           flex-direction: column;
@@ -75,14 +75,14 @@
 
 @media screen and (max-width: 500px) {
   .paging {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    &__div {
       display: block;
-      text-align: center;
-      margin-bottom: 10px;
       &__div {
-        display: block;
-        &__div {
-          justify-content: center;
-        }
+        justify-content: center;
       }
+    }
   }
 }

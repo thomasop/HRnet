@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import styles from "../../Home.module.scss";
 
 interface PropType {
@@ -26,47 +26,40 @@ const SelectInput = ({
   inputValue,
   className,
 }: PropType): JSX.Element => {
-  const [userClickSelectDepartement, setUserClickSelectDepartement] =
+  const [userClickDropdownMenu, setUserClickDropdownMenu] =
     useState<boolean>(false);
   const handlerClick = (data: string) => {
     setInputValue(data);
-    setUserClickSelectDepartement(false);
+    setUserClickDropdownMenu(false);
   };
   document.addEventListener("click", (e) => {
     let htmlElement = e.target as HTMLElement;
     if (htmlElement && !htmlElement.classList.contains(className)) {
-      if (userClickSelectDepartement === true) {
-        setUserClickSelectDepartement(false);
+      if (userClickDropdownMenu === true) {
+        setUserClickDropdownMenu(false);
       }
     }
   });
   return (
     <>
       <div className={`${className} ${styles.home__form__group}`}>
-        <label
-          className={styles.home__form__group__label}
-          htmlFor="departement"
-        >
-          {labelName}
-        </label>
-        <div className={`${className} ${styles.home__form__group__div}`}>
+        <label className={styles.home__form__group__label}>{labelName}</label>
+        <div className={className}>
           <ul className={`${className} ${styles.home__form__group__div__ul}`}>
             <li
               className={`${className} ${
-                userClickSelectDepartement === true
+                userClickDropdownMenu === true
                   ? styles.home__form__group__div__ul__li__main__open
                   : styles.home__form__group__div__ul__li__main
               }`}
-              onClick={() =>
-                setUserClickSelectDepartement(!userClickSelectDepartement)
-              }
+              onClick={() => setUserClickDropdownMenu(!userClickDropdownMenu)}
             >
               {inputValue.length === 0 ? datas[0] : inputValue}
               <span
                 className={`${className} ${styles.home__form__group__div__ul__li__main__span}`}
               ></span>
             </li>
-            {userClickSelectDepartement && (
+            {userClickDropdownMenu && (
               <>
                 <ul
                   className={`${className} ${styles.home__form__group__div__ul__ul}`}

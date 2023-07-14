@@ -23,6 +23,7 @@
   width: 90%;
   &__h1 {
     text-align: center;
+    margin-bottom: 20px;
   }
   &__bottom {
     text-align: center;
@@ -36,7 +37,7 @@
       text-decoration: none;
       transition: all 0.3s ease-in-out;
       &:hover {
-        color : white;
+        color: white;
         background-color: #5a6f08;
       }
     }
@@ -48,6 +49,7 @@
     &__div {
       display: flex;
       justify-content: space-between;
+      margin: 10px 0px;
     }
   }
 }

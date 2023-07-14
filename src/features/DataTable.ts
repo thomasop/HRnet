@@ -14,26 +14,24 @@ const initialState: StateType = {
     data: null
 }
 
-const Data = createSlice({
-    name: 'Data',
+const DataTable = createSlice({
+    name: 'DataTable',
     initialState,
     reducers: {
-        storeData: (state, action) => {
+        storeDataTable: (state, action) => {
             state.data =  {data: action.payload.data.data}
             state.initialData = action.payload.data
         },
-        storeDataSearch: (state, action) => {
+        changeDataTable: (state, action) => {
             state.data = action.payload.data
-           // state.onSearch = true
         },
-        storeDataSearchInv: (state, action) => {
+        storeDataTableSearch: (state, action) => {
             state.data = action.payload.data
-           // state.onSearch = false
         },
-        resetData: (state) => {
+        resetDataTable: (state) => {
             state.data = state.initialData
         }
     }
 })
 
-export default Data
+export default DataTable

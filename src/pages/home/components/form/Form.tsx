@@ -10,7 +10,7 @@ import DatePicker from "thomasop-date-picker";
  * React component - Display the form
  * @return {JSX.Element}
  */
-const Form = () => {
+const Form = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [firstnameInput, setFirstnameInput] = useState<string>("");
@@ -22,7 +22,7 @@ const Form = () => {
   const [zipInput, setZipInput] = useState<string>("");
   const [departementInput, setDepartementInput] = useState<string>("Sales");
   const [stateInput, setStateInput] = useState<string>("Alabama");
-  const { data } = useSelector((state: RootState) => state.Data);
+  const { data } = useSelector((state: RootState) => state.DataTable);
 
   const [firstnameInputError, setFirstnameInputError] = useState<string>("");
   const [lastnameInputError, setLastnameInputError] = useState<string>("");
@@ -52,16 +52,25 @@ const Form = () => {
       setStartInputError("");
     }
   }, [birthInput, birthInput.length, startInput]);
-  
+
   const handlerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const employees = [];
     for (let i = 0; i < 100; i++) {
+      let testDate = new Date();
+      testDate.setDate(testDate.getDate() + i);
+      let strDate =
+        testDate.getMonth() +
+        1 +
+        "/" +
+        testDate.getDate() +
+        "/" +
+        testDate.getFullYear();
       const employee = {
         "First Name": "firstname" + i,
         "Last Name": "lastname" + i,
-        "Date Of Birth": new Date().toDateString(),
-        "Start Date": new Date().toDateString(),
+        "Date Of Birth": strDate,
+        "Start Date": strDate,
         Department: i,
         Street: "rue" + i + "exemple",
         City: "paris",
@@ -70,13 +79,9 @@ const Form = () => {
       };
       employees.push(employee);
     }
-    /* dispatch({
-      type: "Array/storeData",
-      payload: { data: { data: employees } },
-    }); */
-    
+
     dispatch({
-      type: "Data/storeData",
+      type: "DataTable/storeDataTable",
       payload: { data: { data: employees } },
     });
     if (
@@ -94,10 +99,10 @@ const Form = () => {
         "Last Name": lastnameInput,
         "Date Of Birth": birthInput[0],
         "Start Date": startInput[0],
-        department: departementInput,
-        street: streetInput,
-        city: cityInput,
-        state: stateInput,
+        Department: departementInput,
+        Street: streetInput,
+        City: cityInput,
+        State: stateInput,
         "Zip Code": zipInput,
       };
       employees.push(employee);
@@ -112,66 +117,42 @@ const Form = () => {
         type: "Modal/open",
       });
       if (data && data["data"]) {
-        /* dispatch({
-          type: "Array/storeData",
-          payload: { data: { data: [...data["data"], employees[0]] } },
-        }); */
         dispatch({
-          type: "Data/storeData",
+          type: "DataTable/storeDataTable",
           payload: { data: { data: [...data["data"], employees[0]] } },
         });
         clearInput();
       } else {
-        /* dispatch({
-          type: "Array/storeData",
-          payload: { data: { data: employees } },
-        }); */
         dispatch({
-          type: "Data/storeData",
+          type: "DataTable/storeDataTable",
           payload: { data: { data: employees } },
         });
         clearInput();
       }
     } else {
-      console.log(firstnameInput);
       if (firstnameInput.length === 0) {
-        setFirstnameInputError("Firstname can't be empty");
-      } else {
-        setFirstnameInputError("");
+        setFirstnameInputError("Firstname : can't be empty");
       }
       if (lastnameInput.length === 0) {
-        setLastnameInputError("Lastname can't be empty");
-      } else {
-        setLastnameInputError("");
+        setLastnameInputError("Lastname : can't be empty");
       }
       if (birthInput[0].length === 0) {
-        setBirthInputError("Birth can't be empty");
-      } else {
-        setBirthInputError("");
+        setBirthInputError("Birth : can't be empty");
       }
       if (startInput[0].length === 0) {
-        setStartInputError("Start can't be empty");
-      } else {
-        setStartInputError("");
+        setStartInputError("Start : can't be empty");
       }
       if (streetInput.length === 0) {
-        setStreetInputError("Street can't be empty");
-      } else {
-        setStreetInputError("");
+        setStreetInputError("Street : can't be empty");
       }
       if (cityInput.length === 0) {
-        setCityInputError("City can't be empty");
-      } else {
-        setCityInputError("");
+        setCityInputError("City : can't be empty");
       }
       if (zipInput.length === 0) {
-        setZipInputError("Zip code can't be empty");
-      } else {
-        setZipInputError("");
+        setZipInputError("Zip code : can't be empty");
       }
     }
   };
-  
 
   return (
     <>
@@ -189,8 +170,8 @@ const Form = () => {
           nameInput={"firstname"}
           errorMessage={firstnameInputError}
           setErrorMessage={setFirstnameInputError}
-          regex={/[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/}
-          regexErrorMessage={"must have a minimum of 2 characters"}
+          regex={/^[A-Za-zÀ-ÖØ-öø-ÿ]{1,}$/}
+          regexErrorMessage={"only letters are allowed"}
         />
         <DefaultInput
           inputValue={lastnameInput}
@@ -200,8 +181,8 @@ const Form = () => {
           nameInput={"lastname"}
           errorMessage={lastnameInputError}
           setErrorMessage={setLastnameInputError}
-          regex={/[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/}
-          regexErrorMessage={"must have a minimum of 2 characters"}
+          regex={/^[A-Za-zÀ-ÖØ-öø-ÿ]{1,}$/}
+          regexErrorMessage={"only letters are allowed"}
         />
         <DatePicker
           labelElement={"Date of Birth"}
@@ -234,8 +215,8 @@ const Form = () => {
             nameInput={"street"}
             errorMessage={streetInputError}
             setErrorMessage={setStreetInputError}
-            regex={/[A-Za-zÀ-ÖØ-öø-ÿ0-9]{2,}/}
-            regexErrorMessage={"must have a minimum of 2 characters"}
+            regex={/^[A-Za-zÀ-ÖØ-öø-ÿ0-9]{1,}$/}
+            regexErrorMessage={"only letters and numbers are allowed"}
           />
           <DefaultInput
             inputValue={cityInput}
@@ -245,8 +226,8 @@ const Form = () => {
             nameInput={"city"}
             errorMessage={cityInputError}
             setErrorMessage={setCityInputError}
-            regex={/[A-Za-zÀ-ÖØ-öø-ÿ]{2,}/}
-            regexErrorMessage={"must have a minimum of 2 characters"}
+            regex={/^[A-Za-zÀ-ÖØ-öø-ÿ]{1,}$/}
+            regexErrorMessage={"only letters are allowed"}
           />
           <SelectInput
             labelName={"State"}
@@ -321,8 +302,8 @@ const Form = () => {
             nameInput={"code"}
             errorMessage={zipInputError}
             setErrorMessage={setZipInputError}
-            regex={/[0-9]{5,5}/}
-            regexErrorMessage={"must be five digits"}
+            regex={/^[0-9]{5,5}$/}
+            regexErrorMessage={"only 5 numbers are allowed"}
           />
         </div>
         <SelectInput

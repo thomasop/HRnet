@@ -45,7 +45,7 @@ const DefaultInput = ({
     } else if (e.target.value.length === 0) {
       setErrorMessage("");
     } else {
-      setErrorMessage(`${labelName} ${regexErrorMessage}`);
+      setErrorMessage(`${labelName} : ${regexErrorMessage}`);
     }
   };
   return (
