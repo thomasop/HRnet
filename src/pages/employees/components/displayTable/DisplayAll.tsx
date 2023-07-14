@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Display from "./DisplayRow";
+import DisplayRow from "./DisplayRow";
 import styles from "./Display.module.scss";
 import { RootState } from "../../../../store";
 
@@ -65,7 +65,7 @@ const DisplayAll = (): JSX.Element => {
           i++
         ) {
           if (i < data.data.length) {
-            arDisplay.push(<Display key={i} i={i} />);
+            arDisplay.push(<DisplayRow key={i} i={i} />);
           }
         }
 
@@ -80,7 +80,7 @@ const DisplayAll = (): JSX.Element => {
     if (data && data.data.length > 0) {
       for (let i = (currentPage - 1) * nbShow; i < currentPage * nbShow; i++) {
         if (i < data.data.length) {
-          arDisplay.push(<Display key={i} i={i} />);
+          arDisplay.push(<DisplayRow key={i} i={i} />);
         }
       }
     } else {
@@ -97,6 +97,7 @@ const DisplayAll = (): JSX.Element => {
     }
     setDisplayTrElement(arDisplay);
   }, [currentPage, data, dispatch, initialData, keyAr, nbShow, sortBy]);
+
   const handlerSortBy = (e: React.MouseEvent<HTMLElement>) => {
     let element = e.target as HTMLElement;
     if (element.textContent === sortBy[0]) {
@@ -105,24 +106,24 @@ const DisplayAll = (): JSX.Element => {
           type: "DataTableFilter/changeSortBy",
           payload: { sortBy: [element.textContent, "ASC"] },
         });
-        sortByF(element.textContent, "ASC");
+        sortData(element.textContent, "ASC");
       } else {
         dispatch({
           type: "DataTableFilter/changeSortBy",
           payload: { sortBy: [element.textContent, "DESC"] },
         });
-        sortByF(element.textContent, "DESC");
+        sortData(element.textContent, "DESC");
       }
     } else {
       dispatch({
         type: "DataTableFilter/changeSortBy",
         payload: { sortBy: [element.textContent, "ASC"] },
       });
-      sortByF(element.textContent!, "ASC");
+      sortData(element.textContent!, "ASC");
     }
   };
 
-  const sortByF = (element: string, sort: string) => {
+  const sortData = (element: string, sort: string) => {
     if (sortBy[0] !== "" && sortBy[1] !== "" && keyAr[0]) {
       let copyData = data?.data;
       let sortData;

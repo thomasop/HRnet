@@ -55,35 +55,6 @@ const Form = (): JSX.Element => {
 
   const handlerSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const employees = [];
-    for (let i = 0; i < 100; i++) {
-      let testDate = new Date();
-      testDate.setDate(testDate.getDate() + i);
-      let strDate =
-        testDate.getMonth() +
-        1 +
-        "/" +
-        testDate.getDate() +
-        "/" +
-        testDate.getFullYear();
-      const employee = {
-        "First Name": "firstname" + i,
-        "Last Name": "lastname" + i,
-        "Date Of Birth": strDate,
-        "Start Date": strDate,
-        Department: i,
-        Street: "rue" + i + "exemple",
-        City: "paris",
-        State: "Alabama",
-        "Zip Code": i,
-      };
-      employees.push(employee);
-    }
-
-    dispatch({
-      type: "DataTable/storeDataTable",
-      payload: { data: { data: employees } },
-    });
     if (
       firstnameInput.length > 0 &&
       lastnameInput.length > 0 &&
